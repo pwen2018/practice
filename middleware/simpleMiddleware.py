@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 import json
 
 from utils.jwt_utils import verify_bearer_token
@@ -9,7 +9,7 @@ except ImportError:
     MiddlewareMixin = object
 
 write_list = [
-    '/v1/user'
+    '/v1/user', '/v1/user/login'
 ]
 
 
@@ -27,6 +27,7 @@ class SimpleMiddleware(MiddlewareMixin):
                 else:
                     return JsonResponse({'tips': '您未登录,登录信息过期', 'status': 401})
             except Exception as e:
-                print(e)
+                return HttpResponseRedirect("/v1/user/login")
+
 
 

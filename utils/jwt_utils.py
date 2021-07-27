@@ -31,3 +31,4 @@ def get_user(request):
     user = verify_bearer_token(token)
     username = user["username"]
     return username
+

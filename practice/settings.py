@@ -49,7 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'middleware.simpleMiddleware.SimpleMiddleware',
+    # 拦截器中间件
+    'middleware.simpleMiddleware.SimpleMiddleware',
 ]
 
 ROOT_URLCONF = 'practice.urls'
@@ -131,7 +132,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # 设置URL结尾忽略 /
-APPEND_SLASH=False
+APPEND_SLASH = False
 
 JWT_TOKEN_KEY = 'sven'
 # 跨域增加忽略

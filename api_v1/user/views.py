@@ -110,3 +110,6 @@ def login(request):
         token = create_token(username)
         result = {"code": 200, "username": username, 'data': {"token": token}}
         return JsonResponse(result)
+
+def get_test(request):
+    return JsonResponse("测试拦截器")
