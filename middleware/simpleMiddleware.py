@@ -1,5 +1,5 @@
+import logging
 from django.http import JsonResponse
-
 from utils.jwt_utils import verify_bearer_token
 
 try:
@@ -8,9 +8,9 @@ except ImportError:
     MiddlewareMixin = object
 
 write_list = [
-    '/v1/user', '/v1/user/login'
+    '/v1/user/', '/v1/user/login/'
 ]
-
+logger = logging.getLogger(__name__)
 
 class SimpleMiddleware(MiddlewareMixin):
     def process_request(self, request):
@@ -22,13 +22,9 @@ class SimpleMiddleware(MiddlewareMixin):
                 return JsonResponse({'code': 402, 'data': '您未登录', })
             try:
                 if verify_bearer_token(token_list):
-                    username = verify_bearer_token(token_list)['username']
-                    print(username)
+                    pass
                 else:
                     return JsonResponse({'code': 401, 'data': '您未登录,登录信息过期'})
             except Exception as e:
                 result = {'code': 401, 'data': '无效token'}
                 return JsonResponse(result)
-
-
-

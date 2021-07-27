@@ -19,3 +19,8 @@ class UserProfile(models.Model):
     cancellation = models.IntegerField(verbose_name="用户逻辑删除", default=1, db_column='cancellation')
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True, db_column='create_time')
     update_time = models.DateTimeField(verbose_name="创建时间", auto_now=True, db_column='update_time')
+
+    class Meta:
+        db_table = 'user'
+        verbose_name = "用户"
+        verbose_name_plural = verbose_name

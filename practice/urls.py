@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 from user import views as user_view
 
+
 urlpatterns = [
-    # path('admin/', admin.site.urls),
     path('v1/user/', user_view.UserView.as_view()),
     path('v1/user/', include('user.urls')),
+
 ]
