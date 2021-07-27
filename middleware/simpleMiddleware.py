@@ -1,5 +1,4 @@
-from django.http import JsonResponse, HttpResponseRedirect
-import json
+from django.http import JsonResponse
 
 from utils.jwt_utils import verify_bearer_token
 
@@ -20,14 +19,16 @@ class SimpleMiddleware(MiddlewareMixin):
                 token = request.META.get('HTTP_AUTHORIZATION')
                 token_list = token.replace('Bearer ', '')
             except:
-                return JsonResponse({'tips': '您未登录', 'status': 402})
+                return JsonResponse({'code': 402, 'data': '您未登录', })
             try:
                 if verify_bearer_token(token_list):
-                    pass
+                    username = verify_bearer_token(token_list)['username']
+                    print(username)
                 else:
-                    return JsonResponse({'tips': '您未登录,登录信息过期', 'status': 401})
+                    return JsonResponse({'code': 401, 'data': '您未登录,登录信息过期'})
             except Exception as e:
-                return HttpResponseRedirect("/v1/user/login")
+                result = {'code': 401, 'data': '无效token'}
+                return JsonResponse(result)
 
 
 
