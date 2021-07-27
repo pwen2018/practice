@@ -1,9 +1,13 @@
 import json
+import logging
 from django.http import JsonResponse
 from django.views import View
 from user.models import UserProfile
 from utils.encryption_MD5 import encryptionMD5
 from utils.jwt_utils import create_token, get_user
+
+# 获取一个logger对象
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -37,7 +41,7 @@ class UserView(View):
             UserProfile.objects.create(username=username, password=password_h,
                                        phone=phone, nickname=username)
         except Exception as e:
-            print("create user error %s" % e)
+            logger.info("create user error %s" % e)
             result = {'code': 10012, 'error': "用户已存在"}
             return JsonResponse(result)
         result = {'code': 200, 'username': username, 'data': {'token': token}}
@@ -62,7 +66,7 @@ class UserView(View):
                 password = json_obj['new_password']
                 user.password = encryptionMD5(password)
             except Exception as e:
-                print('update password error %s' % e)
+                logger.info('update password error %s' % e)
                 result = {'code': 10017, 'error': "请输入密码"}
                 return JsonResponse(result)
         user.save()
@@ -97,7 +101,7 @@ def login(request):
         try:
             user = UserProfile.objects.get(username=username)
         except Exception as e:
-            print('select error is %s' % e)
+            logger.info('select error is %s' % e)
             result = {"code": 10016, 'error': '用户不存在'}
             return JsonResponse(result)
         if password != user.password:
